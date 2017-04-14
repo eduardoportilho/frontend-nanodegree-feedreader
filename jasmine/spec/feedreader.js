@@ -47,10 +47,8 @@ $(function() {
     });
 
     describe('Initial Entries', function() {
-
-
         beforeEach(function (done) {
-            loadFeed(0,done);
+            loadFeed(0, done);
         });
 
         it('shows at least one entry', function () {
@@ -59,10 +57,21 @@ $(function() {
         });
     });
 
-    /* TODO: Write a new test suite named "New Feed Selection" */
+    describe('New Feed Selection', function() {
+        var contentBefore, contentAfter;
 
-        /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
+        beforeEach(function (done) {
+            loadFeed(0, function () {
+                contentBefore = $('.feed').html();
+                loadFeed(1, function () {
+                    contentAfter = $('.feed').html();
+                    done();
+                });
+            });
+        });
+
+        it('changes the content when feed is loaded', function () {
+            expect(contentBefore).not.toEqual(contentAfter);
+        });
+    });
 }());
