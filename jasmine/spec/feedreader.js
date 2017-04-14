@@ -9,6 +9,9 @@
  * to ensure they don't run until the DOM is ready.
  */
 $(function() {
+    /* 
+     * Check if the feeds variable is defined and valid.
+     */
     describe('RSS Feeds', function() {
         it('are defined', function() {
             expect(allFeeds).toBeDefined();
@@ -23,7 +26,7 @@ $(function() {
             }
         });
 
-        it('has non-empty URLs', function() {
+        it('has non-empty names', function() {
             for(var i = 0; i < allFeeds.length ; i++) {
                 expect(allFeeds[i]).toBeDefined();
                 expect(allFeeds[i].name).toBeDefined();
@@ -32,6 +35,9 @@ $(function() {
         });
     });
 
+    /*
+     * Check the hide/show menu functionality.
+     */
     describe('The menu', function() {
         it('is hidden by default', function() {
             expect(document.body.classList).toContain('menu-hidden');
@@ -48,7 +54,13 @@ $(function() {
         });
     });
 
+    /*
+     * Check if there is at least one entry after an inital loadFeed call.
+     */
     describe('Initial Entries', function() {
+        /*
+         * Call loadFeed and wait for it's completion before each test.
+         */
         beforeEach(function (done) {
             loadFeed(0, done);
         });
@@ -59,9 +71,18 @@ $(function() {
         });
     });
 
+    /*
+     * Check if the feed content change after two successive calls 
+     * to loadFeed with different parameters.
+     */
     describe('New Feed Selection', function() {
         var contentBefore, contentAfter;
 
+        /*
+         * Before each test:
+         * - Call loadFeed for feed 0 and store the content on return.
+         * - Call loadFeed for feed 1 and store the content on return.
+         */
         beforeEach(function (done) {
             loadFeed(0, function () {
                 contentBefore = $('.feed').html();
